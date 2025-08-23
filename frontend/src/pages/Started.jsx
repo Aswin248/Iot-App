@@ -3,7 +3,7 @@ import axios from "axios";
 import Locker from "../assets/Locker.jpg";
 import DevicesImg from "../assets/Devices.png";
 import NoC from "../assets/NoCo.jpg";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
 import { useContext } from "react";
 
 const Started = () => {
