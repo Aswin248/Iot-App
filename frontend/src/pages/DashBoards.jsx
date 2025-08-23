@@ -6,7 +6,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
 
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
 import { useContext } from "react";
 
 const chartData = [
