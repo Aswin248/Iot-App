@@ -1,6 +1,6 @@
-import SideBar from "../components/SideBar";
+import SideBar from "../Components/SideBar";
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../Components/Navbar";
 
 const Home = () => {
   return (
