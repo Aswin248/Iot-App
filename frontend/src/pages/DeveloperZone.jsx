@@ -1,6 +1,6 @@
 // DeveloperZoneLayout.jsx
 import { Outlet, NavLink } from "react-router-dom";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
 import { useContext } from "react";
 
 const DeveloperZoneLayout = () => {
