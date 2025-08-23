@@ -1,0 +1,312 @@
+/* Sidebar fixed on left */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #f1f0f0;
+  padding: 16px;
+  box-sizing: border-box;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+
+
+
+.sidebar nav a {
+  color: #555;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar nav a:hover {
+  background-color: #e2dfdf;
+}
+
+.sidebar nav a.active {
+  background-color: #dedfde;
+  font-weight: bold;
+  color: #3fb41c;
+}
+
+/* Top navbar fixed on top right side */
+.navMain {
+  position: fixed;
+  top: 0;
+  left: 220px;   /* right after sidebar */
+  right: 0;
+  height: 60px;
+  background-color: white;
+  border-bottom: 1px solid rgb(231, 225, 225);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 0 0 13px 13px;
+  z-index: 1100;
+}
+
+.navMain a {
+  color: #555;
+  text-decoration: none;
+  font-weight: normal;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+
+/* Main content pushed right & down from sidebar & navbar */
+.main-content {
+  margin-left: 220px;   /* width of sidebar */
+  padding-top: 60px;    /* height of navbar */
+  padding: 20px;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.navMain {
+  position: fixed;
+  top: 0;
+  left: 220px;     /* start right after sidebar */
+  right: 0;        /* stretch to right edge */
+  height: 60px;    /* navbar height */
+  background-color: white;
+  border-bottom: 1px solid rgb(231, 225, 225);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: solid rgb(224, 219, 219);
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 13px;
+  z-index: 1100; /* above sidebar */
+}
+.Users{
+width: 37px;
+height: 28px;
+border-Radius: "100%";
+cursor: pointer;
+}
+.logo{
+  width: 40px;      /* adjust size */
+  height: 40px;
+}
+html, body {
+  margin: 0;
+  padding: 6;
+  height: 100%;
+  overflow: hidden; /* prevent double scroll */
+  font-family: Arial, sans-serif;
+}
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Make it fill the screen height */
+  background-color: #f8f9fa; /* Optional for contrast */
+}
+.boxes{
+ display:flex;
+ justify-content:center;
+ flex-direction:column;
+ align-items:center;
+}
+.containerDevices{
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+}
+.DashBoards {
+  display: flex;
+  flex-direction: column; 
+  width: 350px;
+  height: 500px;
+  padding: 11px;
+  border-radius: 8px;
+}
+
+.beta {
+  width: 57px;
+  height: 27px;
+  font-size: 0.85rem;
+  border: 1px solid rgb(143, 240, 143);
+  border-radius: 26px;
+  color: rgb(82, 218, 82);
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+
+.Center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  font-weight: bold;
+}
+.menu-item {
+  cursor: default;            
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.menu-item.active {
+  background-color: rgb(220, 223, 220); 
+  color: rgb(36, 145, 54);
+  cursor:pointer;
+   width:327px;
+  height:43px;
+  display:flex;
+  align-items:center;
+}
+.down{
+ margin-top:700px;
+ font-size: 0.85rem;
+ width:327px;
+}
+.devices{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  height: 100vh;
+}
+.createDevice{
+  font-weight: bold;
+}
+.searchDevice{
+  height: 32px;
+  width: 616px;
+  margin-top:25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Navbar text */
+.navMain {
+  transition: color 0.3s, background-color 0.3s;
+}
+
+/* Light mode */
+body.light .navMain {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Dark mode */
+body.dark .navMain {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+/* Dropdown menu background and text */
+body.light .dropdown-menu {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+body.dark .dropdown-menu {
+  background-color: #333 !important;
+  color: #f5f5f5 !important;
+}
+
+/* Dropdown items */
+.dropdown-item {
+  color: inherit !important;
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+/* Global theme */
+body.light {
+  background-color: #f8f9fa;
+  color: #111;
+}
+
+body.dark {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+/* Sidebar specific */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+body.light .sidebar {
+  background-color: #f8f9fa;
+}
+
+body.dark .sidebar {
+  background-color: #1e1e1e;
+}
+/* Light mode */
+body.light .start {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Dark mode */
+body.dark .start {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+body.light .dashboard {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Dark mode */
+body.dark .dashboard  {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+body.light .developerZone {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Dark mode */
+body.dark .developerZone  {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+
+
+
+
+
+
+
+
