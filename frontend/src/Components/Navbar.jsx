@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import User from "../assets/Users.jpg";
 import { NavLink, Link } from "react-router-dom";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
 import { useContext } from "react";
 
 const Navbar = () => {
