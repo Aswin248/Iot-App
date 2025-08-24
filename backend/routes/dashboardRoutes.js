@@ -1,10 +1,8 @@
-// routes/dashboardRoutes.js
 const express = require("express");
+const router = express.Router();
 const { saveDashboard, getDashboard } = require("../controllers/dashboardController");
 
-const router = express.Router();
+router.get("/:userId", getDashboard);
+router.post("/:userId", saveDashboard);
 
-router.post("/", saveDashboard);
-router.get("/dashboard/:userId", getDashboard);
-
-module.exports = router;   // ✅ CommonJS export
+module.exports = router;

@@ -61,19 +61,20 @@ const WidgetPreview = ({ type }) => {
 
 const MainCanvas = () => {
   const [widgets, setWidgets] = useState([]);
-  const userId = "101"; // Replace with auth user
+  const userId = "66d4a49fbd4f95f7e97a56c3";
 
   useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/dashboard/${userId}`);
-        setWidgets(res.data.widgets || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchDashboard();
-  }, []);
+  const fetchDashboard = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/dashboard/${userId}`);
+      setWidgets(res.data.widgets || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  fetchDashboard();
+}, []);
+
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "WIDGET",
@@ -82,14 +83,17 @@ const MainCanvas = () => {
   }));
 
   const handleApply = async () => {
-    try {
-      await axios.post("http://localhost:5000/dashboard", { userId, widgets });
-      alert("Dashboard saved!");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to save dashboard.");
-    }
-  };
+  try {
+    await axios.post(
+      `http://localhost:5000/api/dashboard/${userId}`,
+      { widgets }
+    );
+    alert("Dashboard saved!");
+  } catch (err) {
+    console.error("Error saving dashboard:", err);
+  }
+};
+
 
   const renderWidget = (widget) => {
     switch (widget.type) {

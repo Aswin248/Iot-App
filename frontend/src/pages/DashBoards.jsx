@@ -20,21 +20,21 @@ const chartData = [
 const Dashboards = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [widgets, setWidgets] = useState([]);
-  const userId = "101"; // 🔹 replace with real logged-in userId
+  const userId = "66d4a49fbd4f95f7e97a56c3";
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   // Fetch widgets from backend
   useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/dashboard/dashboard/${userId}`);
-        setWidgets(res.data.widgets || []);
-      } catch (err) {
-        console.error("Error fetching dashboard:", err);
-      }
-    };
-    fetchDashboard();
-  }, [userId]);
+  const fetchDashboard = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/dashboard/${userId}`);
+      setWidgets(res.data.widgets || []); // ✅ use res.data.widgets
+    } catch (err) {
+      console.error("Error fetching dashboard:", err);
+    }
+  };
+  fetchDashboard();
+}, [userId]);
 
   const togglePanel = () => setIsCollapsed(!isCollapsed);
 

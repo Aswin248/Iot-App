@@ -1,16 +1,15 @@
-// models/Dashboard.js
 const mongoose = require("mongoose");
 
-const widgetSchema = new mongoose.Schema({
-  type: { type: String, required: true },
+const DashboardSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  widgets: {
+    type: Array,
+    default: [],
+  },
 });
 
-const dashboardSchema = new mongoose.Schema(
-  {
-    userId: { type: String, required: true }, // could come from auth
-    widgets: [widgetSchema],
-  },
-  { timestamps: true }
-);
-
-module.exports = mongoose.model("Dashboard", dashboardSchema);
+module.exports = mongoose.model("Dashboard", DashboardSchema);
