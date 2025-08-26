@@ -27,7 +27,6 @@ const Widget = ({ type, children }) => {
   return <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, cursor: "grab" }}>{children}</div>;
 };
 
-// Sidebar Preview Component
 const WidgetPreview = ({ type }) => {
   switch (type) {
     case "Line Chart":
@@ -61,20 +60,24 @@ const WidgetPreview = ({ type }) => {
 
 const MainCanvas = () => {
   const [widgets, setWidgets] = useState([]);
-  const userId = "66d4a49fbd4f95f7e97a56c3";
 
+  // Load saved dashboard widgets from backend
   useEffect(() => {
-  const fetchDashboard = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/api/dashboard/${userId}`);
-      setWidgets(res.data.widgets || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  fetchDashboard();
-}, []);
+    const fetchDashboard = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
 
+        const res = await axios.get("http://localhost:5000/api/dashboard/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setWidgets(res.data.widgets || []);
+      } catch (err) {
+        console.error("Error fetching dashboard:", err);
+      }
+    };
+    fetchDashboard();
+  }, []);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "WIDGET",
@@ -83,17 +86,21 @@ const MainCanvas = () => {
   }));
 
   const handleApply = async () => {
-  try {
-    await axios.post(
-      `http://localhost:5000/api/dashboard/${userId}`,
-      { widgets }
-    );
-    alert("Dashboard saved!");
-  } catch (err) {
-    console.error("Error saving dashboard:", err);
-  }
-};
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please login first");
 
+      await axios.post(
+        "http://localhost:5000/api/dashboard/",
+        { widgets },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("Dashboard saved!");
+    } catch (err) {
+      console.error("Error saving dashboard:", err);
+      alert("Failed to save dashboard. Check console for details.");
+    }
+  };
 
   const renderWidget = (widget) => {
     switch (widget.type) {
@@ -124,7 +131,7 @@ const MainCanvas = () => {
   );
 };
 
-// Individual Widget Components
+// Individual Widgets
 const LineChartWidget = () => (
   <div style={{ width: "100%", height: 250 }}>
     <ResponsiveContainer>

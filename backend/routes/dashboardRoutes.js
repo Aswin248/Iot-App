@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { saveDashboard, getDashboard } = require("../controllers/dashboardController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.get("/:userId", getDashboard);
-router.post("/:userId", saveDashboard);
+// JWT protected routes
+router.get("/", authMiddleware, getDashboard);
+router.post("/", authMiddleware, saveDashboard);
 
 module.exports = router;

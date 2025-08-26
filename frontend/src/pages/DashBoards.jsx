@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
   LineChart, Line, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
-
 import { ThemeContext } from "../Contexts/ThemeContext";
-import { useContext } from "react";
 
 const chartData = [
   { name: "Jan", uv: 400, pv: 240 },
@@ -20,25 +18,29 @@ const chartData = [
 const Dashboards = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [widgets, setWidgets] = useState([]);
-  const userId = "66d4a49fbd4f95f7e97a56c3";
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  // Fetch widgets from backend
+  // Fetch widgets from backend using JWT token
   useEffect(() => {
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/dashboard/${userId}`);
-      setWidgets(res.data.widgets || []); // ✅ use res.data.widgets
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await axios.get("http://localhost:5000/api/dashboard/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setWidgets(res.data.widgets || []);
     } catch (err) {
       console.error("Error fetching dashboard:", err);
     }
   };
   fetchDashboard();
-}, [userId]);
+}, []);
+
 
   const togglePanel = () => setIsCollapsed(!isCollapsed);
 
-  // Render each widget
   const renderWidget = (widget) => {
     switch (widget.type) {
       case "Line Chart":
@@ -96,100 +98,100 @@ const Dashboards = () => {
 
   return (
     <div className="dashboard">
-    <div style={{ display: "flex", flexDirection: "row", height: "520px" }}>
-      {/* Sidebar */}
-      <div
-        style={{
-          width: isCollapsed ? "60px" : "250px",
-          backgroundColor: "white",
-          transition: "width 0.3s ease",
-          boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div style={{ display: "flex", flexDirection: "row", height: "520px" }}>
+        {/* Sidebar */}
         <div
           style={{
+            width: isCollapsed ? "60px" : "250px",
+            backgroundColor: "white",
+            transition: "width 0.3s ease",
+            boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
+            padding: "10px",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "15px",
+            flexDirection: "column",
           }}
         >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "15px",
+            }}
+          >
+            {!isCollapsed && (
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <h6 style={{ margin: 0, fontSize: "14px" }}>Dashboards</h6>
+                <button
+                  className="beta"
+                  style={{ fontSize: "10px", padding: "2px 6px", fontWeight: "bold" }}
+                >
+                  Beta
+                </button>
+              </div>
+            )}
+            <i
+              className="bi bi-list"
+              style={{ fontSize: "20px", cursor: "pointer" }}
+              onClick={togglePanel}
+            ></i>
+          </div>
+
           {!isCollapsed && (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <h6 style={{ margin: 0, fontSize: "14px" }}>Dashboards</h6>
-              <button
-                className="beta"
-                style={{ fontSize: "10px", padding: "2px 6px", fontWeight: "bold" }}
+            <>
+              <div
+                style={{
+                  padding: "8px",
+                  borderRadius: "6px",
+                  marginBottom: "6px",
+                  backgroundColor: "#f0f0f0",
+                  fontWeight: "bold",
+                  fontSize: "13px",
+                  color: "rgb(36, 145, 54)",
+                }}
               >
-                Beta
-              </button>
-            </div>
+                New Dashboard
+              </div>
+
+              <div style={{ marginTop: "auto", fontSize: "12px", fontWeight: "bold" }}>
+                <h6 style={{ fontSize: "13px", marginBottom: "4px" }}>
+                  Add more Dashboards!
+                </h6>
+                <p style={{ fontSize: "12px", margin: 0 }}>
+                  Сreate up to 5 dashboards and share them with users in sub-organizations.
+                </p>
+              </div>
+            </>
           )}
-          <i
-            className="bi bi-list"
-            style={{ fontSize: "20px", cursor: "pointer" }}
-            onClick={togglePanel}
-          ></i>
         </div>
 
-        {!isCollapsed && (
-          <>
-            <div
-              style={{
-                padding: "8px",
-                borderRadius: "6px",
-                marginBottom: "6px",
-                backgroundColor: "#f0f0f0",
-                fontWeight: "bold",
-                fontSize: "13px",
-                color: "rgb(36, 145, 54)",
-              }}
-            >
-              New Dashboard
-            </div>
+        {/* Main Content */}
+        <div style={{ flex: 1, padding: "15px", fontSize: "14px", fontWeight: "bold" }}>
+          <h5 style={{ fontSize: "23px", fontWeight: "bold" }}>New Dashboard</h5>
+          <Link to="/Editing" className="btn btn-primary mb-3">
+            Edit Dashboard
+          </Link>
 
-            <div style={{ marginTop: "auto", fontSize: "12px", fontWeight: "bold" }}>
-              <h6 style={{ fontSize: "13px", marginBottom: "4px" }}>
-                Add more Dashboards!
-              </h6>
-              <p style={{ fontSize: "12px", margin: 0 }}>
-                Сreate up to 5 dashboards and share them with users in sub-organizations.
-              </p>
-            </div>
-          </>
-        )}
+          {widgets.length === 0 ? (
+            <p>No widgets applied yet. Go edit your dashboard.</p>
+          ) : (
+            widgets.map((w, idx) => (
+              <div
+                key={idx}
+                style={{
+                  marginBottom: "15px",
+                  backgroundColor: "white",
+                  padding: "15px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                }}
+              >
+                {renderWidget(w)}
+              </div>
+            ))
+          )}
+        </div>
       </div>
-
-      {/* Main Content */}
-      <div style={{ flex: 1, padding: "15px", fontSize: "14px", fontWeight: "bold" }}>
-        <h5 style={{ fontSize: "23px", fontWeight: "bold" }}>New Dashboard</h5>
-        <Link to="/Editing" className="btn btn-primary mb-3">
-          Edit Dashboard
-        </Link>
-
-        {widgets.length === 0 ? (
-          <p>No widgets applied yet. Go edit your dashboard.</p>
-        ) : (
-          widgets.map((w, idx) => (
-            <div
-              key={idx}
-              style={{
-                marginBottom: "15px",
-                backgroundColor: "white",
-                padding: "15px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-              }}
-            >
-              {renderWidget(w)}
-            </div>
-          ))
-        )}
-      </div>
-    </div>
     </div>
   );
 };

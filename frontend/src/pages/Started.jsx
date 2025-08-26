@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 const Started = () => {
   const [addedDevices, setAddedDevices] = useState([]);
+  const [templates, setTemplates] = useState([]);
   const userId = "101";
     const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -24,6 +25,33 @@ const Started = () => {
     fetchDevices();
   }, []);
 
+
+
+  useEffect(() => {
+  const fetchTemplates = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await axios.get("http://localhost:5000/api/templates", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTemplates(res.data.templates || []);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  };
+  fetchTemplates();
+}, []);
+
+
+
+
+  
+
+
+  
+
   const handleClickDocs = () => {
     window.open(
       "https://docs.blynk.io/en/getting-started/supported-boards",
@@ -35,6 +63,9 @@ const Started = () => {
     window.location.href =
       "https://www.youtube.com/watch?time_continue=13&v=81QxLLhxs6I";
   };
+
+
+  
 
   return (
     <>
@@ -51,7 +82,7 @@ const Started = () => {
         <th scope="row">1</th>
         <td>{addedDevices.length}/10</td>
         <td>0/30000</td>
-        <td>0/10</td>
+        <td>{templates.length}/10</td>
         <td>1/1</td>
       </tr>
       <tr>
